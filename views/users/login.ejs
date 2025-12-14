@@ -1,0 +1,68 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="row">
+  <div class="col-lg-6 col-md-8 offset-lg-3 offset-md-2 mt-4">
+
+    <!-- Heading -->
+    <h2 class="mb-4 text-center fw-semibold">Login Yourself</h2>
+
+    <!-- Keep novalidate + needs-validation for Bootstrap custom validation -->
+    <form action="/login" method="POST" novalidate class="needs-validation">
+
+      <!-- Username -->
+      <div class="mb-3">
+        <label for="username" class="form-label">Enter username</label>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          class="form-control <%= (typeof errors !== 'undefined' && errors.username) ? 'is-invalid' : '' %>"
+          required
+          value="<%= (typeof old !== 'undefined' && old.username) ? old.username : '' %>"
+        >
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">
+          <%= (typeof errors !== 'undefined' && errors.username) ? errors.username.message : 'Please enter a username.' %>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label for="password" class="form-label">Enter password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          class="form-control <%= (typeof errors !== 'undefined' && errors.password) ? 'is-invalid' : '' %>"
+          required
+        >
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">
+          <%= (typeof errors !== 'undefined' && errors.password) ? errors.password.message : 'Please enter a password.' %>
+        </div>
+      </div>
+
+      <br>
+      <button class="btn btn-danger w-100" type="submit">Login</button>
+
+    </form>
+  </div>
+</div>
+
+
+<!-- Bootstrap custom validation activation -->
+<script>
+  (() => {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>

@@ -1,0 +1,128 @@
+<% layout("/layouts/boilerplate") %>
+
+<body>
+  <div class="row">
+    <div class="col-lg-8 col-md-4 offset-2 mt-4">
+
+      <!-- Keep novalidate for Bootstrap custom validation -->
+      <form method="POST" action="/listings/<%= data._id %>?_method=PUT" novalidate class="needs-validation">
+
+        <div class="mb-3">
+          <label for="title" class="form-label">Enter title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            class="form-control <%= (typeof errors !== 'undefined' && errors.title) ? 'is-invalid' : '' %>"
+            required
+            value="<%= (typeof old !== 'undefined' && old.title !== undefined) ? old.title : (data.title || '') %>"
+          >
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">
+            <%= (typeof errors !== 'undefined' && errors.title) ? errors.title.message : 'Please enter a title.' %>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Enter description</label>
+          <textarea
+            id="description"
+            name="description"
+            class="form-control <%= (typeof errors !== 'undefined' && errors.description) ? 'is-invalid' : '' %>"
+            required
+          ><%= (typeof old !== 'undefined' && old.description !== undefined) ? old.description : (data.description || '') %></textarea>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">
+            <%= (typeof errors !== 'undefined' && errors.description) ? errors.description.message : 'Please enter a description.' %>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="image" class="form-label">Enter image URL</label>
+          <input
+            type="text"
+            id="image"
+            name="image"
+            class="form-control <%= (typeof errors !== 'undefined' && errors.image) ? 'is-invalid' : '' %>"
+            required
+            value="<%= (typeof old !== 'undefined' && old.image !== undefined) ? old.image : (data.image || '') %>"
+          >
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">
+            <%= (typeof errors !== 'undefined' && errors.image) ? errors.image.message : 'Please enter an image URL.' %>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="price" class="form-label">Enter price</label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            class="form-control <%= (typeof errors !== 'undefined' && errors.price) ? 'is-invalid' : '' %>"
+            required
+            value="<%= (typeof old !== 'undefined' && old.price !== undefined) ? old.price : (data.price ?? '') %>"
+          >
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">
+            <%= (typeof errors !== 'undefined' && errors.price) ? errors.price.message : 'Please enter a price.' %>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="location" class="form-label">Enter location</label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            class="form-control <%= (typeof errors !== 'undefined' && errors.location) ? 'is-invalid' : '' %>"
+            required
+            value="<%= (typeof old !== 'undefined' && old.location !== undefined) ? old.location : (data.location || '') %>"
+          >
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">
+            <%= (typeof errors !== 'undefined' && errors.location) ? errors.location.message : 'Please enter a location.' %>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="country" class="form-label">Enter country</label>
+          <input
+            type="text"
+            id="country"
+            name="country"
+            class="form-control <%= (typeof errors !== 'undefined' && errors.country) ? 'is-invalid' : '' %>"
+            required
+            value="<%= (typeof old !== 'undefined' && old.country !== undefined) ? old.country : (data.country || '') %>"
+          >
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">
+            <%= (typeof errors !== 'undefined' && errors.country) ? errors.country.message : 'Please enter a country.' %>
+          </div>
+        </div>
+
+        <br>
+        <button class="btn btn-dark add-btn" type="submit">Update</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap custom validation activation (same as new.ejs) -->
+  <script>
+    (() => {
+      'use strict';
+      const forms = document.querySelectorAll('.needs-validation');
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    })();
+  </script>
+
+  <script src="/public/js/script.js"></script>
+</body>
