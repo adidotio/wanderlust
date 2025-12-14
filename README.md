@@ -5,8 +5,6 @@ It is built to demonstrate **real-world authentication, authorization, and owner
 
 The project focuses on **secure CRUD operations**, where users can only modify the data they own.
 
----
-
 ## 📌 What is this project?
 
 Wanderlust allows users to:
@@ -26,7 +24,6 @@ The application enforces **strict authorization rules**:
 
 This project is ideal for learning how **authentication and authorization are handled in real production applications**.
 
----
 
 ## ✨ Features
 
@@ -41,7 +38,6 @@ This project is ideal for learning how **authentication and authorization are ha
 * Clean MVC folder structure
 * Bootstrap-based UI
 
----
 
 ## 🛠 Tech Stack
 
@@ -52,7 +48,6 @@ This project is ideal for learning how **authentication and authorization are ha
 * **Validation:** Joi
 * **Styling:** Bootstrap
 
----
 
 ## 📂 Project Structure (Overview)
 
@@ -69,13 +64,11 @@ wanderlust/
 └── package.json
 ```
 
----
 
 ## ⚙️ How to Set Up Locally
 
 Follow these steps to run the project on your local machine.
 
----
 
 ### 1️⃣ Clone the Repository
 
@@ -84,7 +77,6 @@ git clone https://github.com/your-username/wanderlust.git
 cd wanderlust
 ```
 
----
 
 ### 2️⃣ Install Dependencies
 
@@ -94,7 +86,6 @@ Make sure you have **Node.js** installed.
 npm install
 ```
 
----
 
 ### 3️⃣ Start MongoDB
 
@@ -110,7 +101,6 @@ Default connection used:
 mongodb://127.0.0.1:27017/wanderlust
 ```
 
----
 
 ### 4️⃣ (Optional) Seed Initial Data
 
@@ -120,7 +110,6 @@ If you have seed data:
 node init/index.js
 ```
 
----
 
 ### 5️⃣ Run the Application
 
@@ -134,7 +123,6 @@ or
 node app.js
 ```
 
----
 
 ### 6️⃣ Open in Browser
 
@@ -142,48 +130,12 @@ node app.js
 http://localhost:8080
 ```
 
----
-
-## 🔐 Authorization Logic (Important)
-
-* Listings:
-
-  * Only the user who created a listing can edit or delete it
-* Reviews:
-
-  * Only the user who wrote a review can delete it
-* Unauthorized access is blocked using middleware
-
----
-
-## 🚧 Future Improvements
-
-* Edit reviews functionality
-* Admin role for moderation
-* Image upload using Cloudinary
-* Pagination and search
-* API version of the project
-
----
-
-## 📖 Learning Outcome
-
-This project demonstrates:
-
-* How authentication works in Express apps
-* How to implement secure authorization
-* How to manage relationships in MongoDB
-* How middleware controls access
-* How real-world backend security is structured
-
----
 
 ## 🤝 Contributing
 
 Contributions are welcome!
 Feel free to fork the repository and submit a pull request.
 
----
 
 ## 📜 License
 
