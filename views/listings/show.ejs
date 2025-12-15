@@ -5,15 +5,20 @@
     <div class="col-lg-8 col-md-10 offset-lg-2 offset-md-1 mt-4">
       <h2 class="mb-4"><%= data.title %></h2>
 
+      <!-- Listing Card -->
       <div class="card mb-4">
-        <img src="<%= data.image %>" class="card-img-top show-img" alt="listing-img">
+        <img src="<%= data.image.url %>" class="card-img-top show-img" alt="listing-img">
         <div class="card-body">
-          <h5 class="card-text mt-3">Owner: <i><%= data.owner.username %></i></h5>
+          <h5 class="card-text mt-3">
+            Owner: <i><%= data.owner.username %></i>
+          </h5>
           <p class="card-text"><%= data.description %></p>
           <p class="card-text fw-bold">₹ <%= data.price.toLocaleString("en-IN") %></p>
           <p class="card-text"><%= data.location %>, <%= data.country %></p>
         </div>
       </div>
+
+      <!-- Edit / Delete (Owner only) -->
       <% if (currUser && data.owner && data.owner._id.equals(currUser._id)) { %>
         <div class="d-flex gap-3 mb-5">
           <a href="/listings/<%= data._id %>/edit" class="btn btn-primary">Edit</a>
@@ -24,7 +29,7 @@
         </div>
       <% } %>
 
-      <!-- Review Form (unchanged) -->
+      <!-- Review Form -->
       <div class="card p-4 shadow-sm">
         <h4 class="mb-3">Leave a Review</h4>
 
@@ -34,26 +39,35 @@
           class="needs-validation" 
           novalidate
         >
+          <!-- ⭐ Starability Rating -->
           <div class="mb-3">
-            <label for="rating" class="form-label fw-semibold">Rating</label>
-            <div class="d-flex align-items-center gap-3">
-              <input 
-                type="range" 
-                min="1" 
-                max="5" 
-                id="rating" 
-                name="review[rating]" 
-                class="form-range flex-grow-1"
-                required
-                oninput="this.nextElementSibling.innerText = this.value"
-              >
-              <span class="badge bg-primary fs-6">3</span>
-            </div>
+            <label class="form-label fw-semibold">Rating</label>
+
+            <fieldset class="starability-basic">
+              <legend class="visually-hidden">Rating</legend>
+
+              <input type="radio" id="rate-1" name="review[rating]" value="1" required>
+              <label for="rate-1" title="Terrible">1 star</label>
+
+              <input type="radio" id="rate-2" name="review[rating]" value="2">
+              <label for="rate-2" title="Not good">2 stars</label>
+
+              <input type="radio" id="rate-3" name="review[rating]" value="3">
+              <label for="rate-3" title="Average">3 stars</label>
+
+              <input type="radio" id="rate-4" name="review[rating]" value="4">
+              <label for="rate-4" title="Very good">4 stars</label>
+
+              <input type="radio" id="rate-5" name="review[rating]" value="5">
+              <label for="rate-5" title="Amazing">5 stars</label>
+            </fieldset>
+
             <div class="invalid-feedback">
-              Please select a rating between 1 and 5.
+              Please select a rating.
             </div>
           </div>
 
+          <!-- Comment -->
           <div class="mb-3">
             <label for="comment" class="form-label fw-semibold">Comment</label>
             <textarea 
@@ -63,35 +77,42 @@
               class="form-control" 
               placeholder="Write your review here..."
               required
-              minlength="20"
+              minlength="5"
             ></textarea>
             <div class="invalid-feedback">
-              Please enter at least 20 characters for your comment.
+              Please enter at least 5 characters.
             </div>
           </div>
           
-          <button class="btn btn-success px-4" type="submit">Submit Review</button>
+          <button class="btn btn-success px-4" type="submit">
+            Submit Review
+          </button>
         </form>
 
         <hr>
 
-        <!-- All Reviews Section (updated per image style) -->
+        <!-- All Reviews -->
         <h4 class="mb-3">All Reviews</h4>
 
         <% if (data.reviews && data.reviews.length > 0) { %>
-          <% for (review of data.reviews) { %>
+          <% for (let review of data.reviews) { %>
             <div class="card shadow-sm mb-3 border-0 p-4">
               <div class="card-body">
                 <h5 class="card-title text-primary fw-semibold">
                   <i class="bi bi-person-circle me-2"></i>
                   <%= review.author ? review.author.username : "Anonymous" %>
                 </h5>
-                <p class="card-text mb-2"><%= review.comment %></p>
-                <p class="card-text mb-0 text-muted">
-                  ⭐ <%= review.rating %> / 5
-                </p>
+
+                <!-- ⭐ Starability Result -->
+                <p class="starability-result mb-3" data-rating="<%= review.rating %>"></p>
+
+                <p class="card-text"><%= review.comment %></p>
+
                 <% if (currUser && review.author && review.author._id.equals(currUser._id)) { %>
-                  <form action="/listings/<%= data._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                  <form 
+                    action="/listings/<%= data._id %>/reviews/<%= review._id %>?_method=DELETE" 
+                    method="POST"
+                  >
                     <button class="btn btn-danger mt-3">Delete</button>
                   </form>
                 <% } %>
@@ -106,12 +127,11 @@
     </div>
   </div>
 
-  <!-- Bootstrap Form Validation Script -->
+  <!-- Bootstrap Validation -->
   <script>
     (function () {
       'use strict';
       const forms = document.querySelectorAll('.needs-validation');
-
       Array.from(forms).forEach(form => {
         form.addEventListener('submit', event => {
           if (!form.checkValidity()) {

@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -16,6 +18,7 @@ const User = require("./models/user.js");
 
 const session = require("express-session");
 const flash = require("connect-flash");
+
 
 // Connection to Database
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
@@ -94,7 +97,7 @@ app.all(/.*/, (req, res, next) => {
 
 app.use((err, req, res, next) => {
     let { status=500, message="Some issue there..." } = err;
-    res.render("error.ejs", { message }); 
+    res.render("listings/error.ejs", { message }); 
 });
 
 

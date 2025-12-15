@@ -9,10 +9,8 @@ const listingSchema = new Schema({
     },
     description: String,
     image: {
-        type: String,
-        default: "https://www.hindustantimes.com/ht-img/img/2023/05/31/550x309/johannes-plenio-qkfxBc2NQ18-unsplash_1685517616174_1685517711281.jpg",
-        
-        set: (v) => v === "" ? "https://www.hindustantimes.com/ht-img/img/2023/05/31/550x309/johannes-plenio-qkfxBc2NQ18-unsplash_1685517616174_1685517711281.jpg" : v,
+        url: String,
+        filename: String,
     },
     price: { type: Number, required: true, min: 0 },
     location: { type: String, required: true },
