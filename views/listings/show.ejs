@@ -18,6 +18,18 @@
         </div>
       </div>
 
+      <!-- Map Section -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="mb-3">Location on Map</h5>
+          <div
+            id="map"
+            style="height: 400px; width: 100%; border-radius: 10px;"
+          ></div>
+        </div>
+      </div>
+
+
       <!-- Edit / Delete (Owner only) -->
       <% if (currUser && data.owner && data.owner._id.equals(currUser._id)) { %>
         <div class="d-flex gap-3 mb-5">
@@ -143,4 +155,34 @@
       });
     })();
   </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const coordinates = <%- JSON.stringify(data.geometry.coordinates) %>;
+
+      if (!coordinates || coordinates.length !== 2) {
+        console.error("Invalid coordinates:", coordinates);
+        return;
+      }
+
+      const map = L.map("map").setView(
+        [coordinates[1], coordinates[0]],
+        12
+      );
+
+      L.tileLayer(
+        "https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=<%= geoapifyKey %>",
+        {
+          attribution:
+            '&copy; OpenStreetMap contributors'
+        }
+      ).addTo(map);
+
+      L.marker([coordinates[1], coordinates[0]])
+        .addTo(map)
+        .bindPopup("<strong><%= data.title %></strong>")
+        .openPopup();
+    });
+  </script>
+
 </body>

@@ -5,7 +5,7 @@
     <div class="col-lg-8 col-md-4 offset-2 mt-4">
 
       <!-- Keep novalidate for Bootstrap custom validation -->
-      <form method="POST" action="/listings/<%= data._id %>?_method=PUT" novalidate class="needs-validation">
+      <form method="POST" action="/listings/<%= data._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
 
         <div class="mb-3">
           <label for="title" class="form-label">Enter title</label>
@@ -38,14 +38,16 @@
         </div>
 
         <div class="mb-3">
-          <label for="image" class="form-label">Enter image URL</label>
+          <img src="<%= originalImage %>" alt="original Image" height="400px" width="600px">
+        </div>
+
+        <div class="mb-3">
+          <label for="image" class="form-label">Upload New Image</label>
           <input
-            type="text"
+            type="file"
             id="image"
-            name="image.url"
+            name="image"
             class="form-control <%= (typeof errors !== 'undefined' && errors.image) ? 'is-invalid' : '' %>"
-            required
-            value="<%= (typeof old !== 'undefined' && old.image !== undefined) ? old.image : (data.image || '') %>"
           >
           <div class="valid-feedback">Looks good!</div>
           <div class="invalid-feedback">
