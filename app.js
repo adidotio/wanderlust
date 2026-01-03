@@ -60,7 +60,7 @@ app.engine('ejs', ejsMate);
 // Adding session
 const sessionOptions = {
     store,
-    secret: 'mysecretcode',
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
