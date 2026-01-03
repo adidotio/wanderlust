@@ -4,8 +4,24 @@ require("dotenv").config();
 
 
 // Index callback
+// Index callback
 module.exports.index = async (req, res) => {
-    const allListing = await Listing.find({});
+    let { search, location, country } = req.query;
+    let query = {};
+
+    if (search) {
+        query.title = { $regex: search, $options: "i" };
+    }
+    
+    if (location) {
+        query.location = { $regex: location, $options: "i" };
+    }
+
+    if (country) {
+        query.country = { $regex: country, $options: "i" };
+    }
+
+    const allListing = await Listing.find(query);
     res.render("listings/index.ejs", { allListing });
 }
 

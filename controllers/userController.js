@@ -8,7 +8,7 @@ module.exports.renderSignup = (req, res) => {
 
 
 // post signup 
-module.exports.postSignup = async(req, res) => {
+module.exports.postSignup = async(req, res, next) => {
     try{
         let {username, email, password} = req.body;
         const newUser = new User({email, username});

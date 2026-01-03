@@ -1,28 +1,127 @@
-<% layout("/layouts/boilerplate") %>
-<body>
-    <h2 class="mt-3 mb-4">All Listings</h2>
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-lg-1">
-        <% for(listing of allListing){ %>
-            <a href="/listings/<%= listing._id %>" class="listing-link">
-                <div class="card col">
-                    <img src="<%= listing.image.url %>" class="card-img-top" alt="Listing-img" style="height: 20rem;">
+<% layout("/layouts/boilerplate") %> 
+<body> 
+    <!-- Category Bar --> 
+    <div class="category-wrapper"> 
+        <button class="scroll-btn left" onclick="scrollCategories('left')">&#10094;</button> 
+ 
+        <div class="category-bar" id="categoryBar"> 
+            <div class="category-item active"> 
+                <i class="fa-regular fa-image"></i> 
+                <span>Amazing views</span> 
+            </div> 
+ 
+            <div class="category-item"> 
+                <i class="fa-solid fa-city"></i> 
+                <span>Iconic cities</span> 
+            </div> 
+ 
+            <div class="category-item"> 
+                <i class="fa-solid fa-water"></i> 
+                <span>Surfing</span> 
+            </div> 
+ 
+            <div class="category-item"> 
+                <i class="fa-solid fa-person-swimming"></i> 
+                <span>Amazing pools</span> 
+            </div> 
+ 
+            <div class="category-item"> 
+                <i class="fa-solid fa-umbrella-beach"></i> 
+                <span>Beach</span> 
+            </div> 
+ 
+            <div class="category-item"> 
+                <i class="fa-solid fa-house-chimney"></i> 
+                <span>Cabins</span> 
+            </div> 
+ 
+            <div class="category-item"> 
+                <i class="fa-solid fa-face-surprise"></i> 
+                <span>OMG!</span> 
+            </div> 
+ 
+            <div class="category-item"> 
+                <i class="fa-solid fa-water-ladder"></i> 
+                <span>Lakefront</span> 
+            </div> 
+ 
+            <div class="category-item"> 
+                <i class="fa-solid fa-house"></i> 
+                <span>Tiny homes</span> 
+            </div> 
+        </div> 
+ 
+        <button class="scroll-btn right" onclick="scrollCategories('right')">&#10095;</button> 
+
+        <div class="tax-toggle"> 
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="switchCheckChecked" checked>
+                <label class="form-check-label" for="switchCheckChecked">Display total after taxes</label>
+            </div> 
+        </div> 
+    </div> 
+ 
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1"> 
+        <% for(listing of allListing){ %> 
+            <a href="/listings/<%= listing._id %>" class="listing-link"> 
+                <div class="card col"> 
+                    <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>" style="height: 20rem;"> 
                     <div class="card-img-overlay"></div>
-                    <div class="card-body">
+                    <div class="card-body"> 
                         <p class="card-text">
                             <b><%= listing.title %></b> <br>
-                            &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
-                        </p>
-                    </div>
-                </div>
-        </a>
-        <% } %>
-    </div>
+                            <span class="listing-price" data-base-price="<%= listing.price %>">
+                                &#8377; <%= (listing.price * 1.18).toLocaleString("en-IN") %> / night
+                            </span>
+                        </p> 
+                        <i class="tax-info"> &nbsp; &nbsp;+18% GST</i> 
+                    </div> 
+                </div> 
+            </a> 
+        <% } %> 
+    </div> 
+ 
+    <script> 
+        // Tax Toggle Functionality
+        let taxSwitch = document.getElementById("switchCheckChecked"); 
+        let allPrices = document.querySelectorAll(".listing-price");
+        let allTaxInfo = document.querySelectorAll(".tax-info");
+        
+        taxSwitch.addEventListener("change", () => { 
+            allPrices.forEach((priceElement) => {
+                let basePrice = parseInt(priceElement.getAttribute("data-base-price"));
+                
+                if(taxSwitch.checked) {
+                    let priceWithTax = Math.round(basePrice * 1.18);
+                    priceElement.innerHTML = `&#8377; ${priceWithTax.toLocaleString("en-IN")}`;
+                } else {
+                    priceElement.innerHTML = `&#8377; ${basePrice.toLocaleString("en-IN")}`;
+                }
+            });
+            
+            allTaxInfo.forEach((taxInfo) => {
+                taxInfo.style.display = taxSwitch.checked ? "block" : "none";
+            });
+        }); 
 
-    
-    
+        // Category Scroll Functionality
+        function scrollCategories(direction) {
+            const categoryBar = document.getElementById('categoryBar');
+            const scrollAmount = 300;
+            
+            if(direction === 'left') {
+                categoryBar.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else {
+                categoryBar.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+
+        // Category Click Handler
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script> 
 </body>
-
-
-<!-- <form method="GET" action="/listings/new">
-        <button>Create New</button>
-    </form> -->

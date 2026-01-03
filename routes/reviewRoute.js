@@ -14,7 +14,7 @@ const validateReviews = (req, res, next) => {
     let { error } = reviewSchema.validate(req.body);
 
     if (error) {
-        throw new expressError(400, result.error);
+        throw new expressError(400, error);
     } else{
         next();
     }
