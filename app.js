@@ -24,7 +24,7 @@ const flash = require("connect-flash");
 // Connection to Database
 // const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
-const dbUrl = process.env.ATLASDB_URL;
+const dbUrl = process.env.ATLASDB_URL; 
 
 async function main(){
     await mongoose.connect(dbUrl);
@@ -65,7 +65,7 @@ const sessionOptions = {
     saveUninitialized: true,
     cookie: {
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000, //dafuq is this ,math      
         httpOnly: true,
     }
 };
@@ -97,7 +97,7 @@ app.use("/listings", listingsRoute);
 app.use("/listings", reviewRoute);
 
 // All User Routes
-app.use("/", userRoute);
+app.use("/", userRoute);   
 
 
 // Middlewares for error handling
@@ -107,7 +107,7 @@ app.all(/.*/, (req, res, next) => {
 
 app.use((err, req, res, next) => {
     let { status = 500, message = "Some issue there..." } = err;
-    if (res.headersSent) {
+    if (res.headersSent) {mm         
         return next(err);
     }
     res.status(status).render("listings/error.ejs", { message });
